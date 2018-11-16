@@ -6,6 +6,10 @@
 
 register_asset 'stylesheets/common/discourse-news.scss'
 
+enabled_site_setting :discourse_news_enabled
+
+load File.expand_path('../lib/validators/allow_news_enabled_validator.rb', __FILE__)
+
 NEWS_THUMB_HEIGHT = 700
 NEWS_THUMB_WIDTH = 400
 
@@ -63,5 +67,12 @@ after_initialize do
   require_dependency 'topic_list_item_serializer'
   class ::TopicListItemSerializer
     prepend NewsItemExtension
+  end
+
+  puts "JUST BEFORE THE CHECK"
+
+  unless defined?(TopicPreviews) == 'constant' && TopicPreviews.class == Module
+    puts "SETTING THE SETTING TO FALSE"
+    SiteSetting.discourse_news_enabled = false
   end
 end

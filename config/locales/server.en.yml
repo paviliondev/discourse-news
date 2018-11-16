@@ -2,3 +2,5 @@ en:
   site_settings:
     discourse_news_enabled: "News enabled"
     discourse_news_category: "News category"
+    errors:
+      topic_list_previews_not_installed: "The News Plugin requires the Topic List Previews Plugin to be installed"

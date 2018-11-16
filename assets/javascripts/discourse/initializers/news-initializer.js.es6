@@ -7,6 +7,9 @@ import { wantsNewWindow } from "discourse/lib/intercept-click";
 export default {
   name: 'news-edits',
   initialize(container){
+
+    if (!Discourse.SiteSettings.discourse_news_enabled) return;
+
     withPluginApi('0.8.12', (api) => {
       api.modifyClass('component:topic-list', {
         @computed('newsRoute')
@@ -28,7 +31,8 @@ export default {
         setupNews() {
           const newsRoute = this.get('newsRoute');
           if (newsRoute) {
-            const newsCategory = this.site.get("categoriesList").find(c => c.id == Discourse.SiteSettings.discourse_news_category);
+            const newsCategoryId = Discourse.SiteSettings.discourse_news_category;
+            const newsCategory = this.site.get("categoriesList").find(c => c.id == newsCategoryId);
             this.set('category', newsCategory);
             Ember.run.scheduleOnce('afterRender', () => {
               this.$().parents('#list-area').addClass('news');
