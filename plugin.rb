@@ -22,7 +22,8 @@ after_initialize do
   class ::ListController
     def news
       list_opts = {
-        category: SiteSetting.discourse_news_category
+        category: SiteSetting.discourse_news_category,
+        no_definitions: true
       }
 
       list = TopicQuery.new(current_user, list_opts).public_send("list_latest")
@@ -69,10 +70,7 @@ after_initialize do
     prepend NewsItemExtension
   end
 
-  puts "JUST BEFORE THE CHECK"
-
   unless defined?(TopicPreviews) == 'constant' && TopicPreviews.class == Module
-    puts "SETTING THE SETTING TO FALSE"
     SiteSetting.discourse_news_enabled = false
   end
 end
