@@ -1,0 +1,4 @@
+en:
+  site_settings:
+    discourse_news_enabled: "News enabled"
+    discourse_news_category: "News category"

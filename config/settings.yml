@@ -1,0 +1,7 @@
+plugins:
+  discourse_news_enabled:
+    default: true
+  discourse_news_category:
+    type: category
+    default: ''
+    client: true

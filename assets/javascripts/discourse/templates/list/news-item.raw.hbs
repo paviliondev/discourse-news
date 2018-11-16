@@ -1,0 +1,19 @@
+<td class='main-link news-item clearfix' colspan="{{titleColSpan}}">
+  {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category}}
+
+  <div class="topic-title">
+    <span class='link-top-line'>
+      {{topic-link topic}}
+    </span>
+  </div>
+
+  <div class="topic-details">
+    {{raw "list/topic-excerpt" topic=topic}}
+  </div>
+
+  <button class="share btn-flat no-text btn-icon"
+    data-share-url="{{topic.url}}"
+    data-post-number="1">
+    {{d-icon 'link'}}
+  </button>
+</td>
