@@ -69,8 +69,4 @@ after_initialize do
   class ::TopicListItemSerializer
     prepend NewsItemExtension
   end
-
-  unless defined?(TopicPreviews) == 'constant' && TopicPreviews.class == Module
-    SiteSetting.discourse_news_enabled = false
-  end
 end
