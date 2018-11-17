@@ -5,6 +5,7 @@
 # url: https://github.com/angusmcleod/discourse-news
 
 register_asset 'stylesheets/common/discourse-news.scss'
+register_asset 'stylesheets/mobile/discourse-news.scss', :mobile
 
 enabled_site_setting :discourse_news_enabled
 

@@ -1,0 +1,45 @@
+#list-area.news {
+  .contents {
+
+    .topic-list {
+      width: 100%;
+
+      tbody {
+        width: 100%;
+
+        .news-item {
+          max-width: 100%;
+          width: 100%;
+          box-sizing: border-box;
+
+          .topic-thumbnail {
+            float: initial;
+            margin-bottom: 10px;
+
+            img {
+              height: 200px !important;
+              width: 100% !important;
+            }
+          }
+
+          .topic-title {
+            margin-bottom: 5px;
+
+            a {
+              font-size: 25px;
+              line-height: 34px;
+            }
+          }
+
+          .topic-excerpt {
+            margin-top: 0;
+          }
+
+          button.share {
+            margin: 5px 0;
+          }
+        }
+      }
+    }
+  }
+}
