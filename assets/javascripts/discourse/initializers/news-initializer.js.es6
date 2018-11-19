@@ -35,11 +35,15 @@ export default {
             const newsCategory = this.site.get("categoriesList").find(c => c.id == newsCategoryId);
             this.set('category', newsCategory);
             Ember.run.scheduleOnce('afterRender', () => {
-              this.$().parents('#list-area').addClass('news');
+              if (this.$()) {
+                this.$().parents('#list-area').addClass('news');
+              }
             })
           } else {
             Ember.run.scheduleOnce('afterRender', () => {
-              this.$().parents('#list-area').removeClass('news');
+              if (this.$()) {
+                this.$().parents('#list-area').removeClass('news');
+              }
             })
           }
         }
