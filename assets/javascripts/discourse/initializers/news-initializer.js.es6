@@ -11,6 +11,18 @@ export default {
     if (!Discourse.SiteSettings.discourse_news_enabled) return;
 
     withPluginApi('0.8.12', (api) => {
+      api.modifyClass('controller:discovery', {
+        @on('init')
+        @observes('application.currentRouteName')
+        toggleClass() {
+          const route = this.get('application.currentRouteName');
+          const isNewsRoute = route === 'news';
+          Ember.run.scheduleOnce('afterRender', () => {
+            $('#list-area').toggleClass('news', isNewsRoute);
+          })
+        }
+      });
+
       api.modifyClass('component:topic-list', {
         @computed('newsRoute')
         routeEnabled(newsRoute) {
@@ -34,17 +46,6 @@ export default {
             const newsCategoryId = Discourse.SiteSettings.discourse_news_category;
             const newsCategory = this.site.get("categoriesList").find(c => c.id == newsCategoryId);
             this.set('category', newsCategory);
-            Ember.run.scheduleOnce('afterRender', () => {
-              if (this.$()) {
-                this.$().parents('#list-area').addClass('news');
-              }
-            })
-          } else {
-            Ember.run.scheduleOnce('afterRender', () => {
-              if (this.$()) {
-                this.$().parents('#list-area').removeClass('news');
-              }
-            })
           }
         }
       });
