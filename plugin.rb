@@ -11,8 +11,8 @@ enabled_site_setting :discourse_news_enabled
 
 load File.expand_path('../lib/validators/allow_news_enabled_validator.rb', __FILE__)
 
-NEWS_THUMB_HEIGHT = 700
-NEWS_THUMB_WIDTH = 400
+NEWS_THUMB_HEIGHT = 400
+NEWS_THUMB_WIDTH = 700
 
 after_initialize do
   Discourse::Application.routes.prepend do
