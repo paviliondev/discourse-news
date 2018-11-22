@@ -8,6 +8,10 @@ a.header-nav-link {
   }
 }
 
+.main-content.news .list-controls {
+  margin: 0;
+}
+
 #list-area.news {
   .contents {
     text-align: center;
@@ -22,6 +26,10 @@ a.header-nav-link {
 
         td {
           padding: 0;
+        }
+
+        tr.topic-list-item:first-of-type .topic-thumbnail {
+          margin-top: 0;
         }
 
         .news-item {
