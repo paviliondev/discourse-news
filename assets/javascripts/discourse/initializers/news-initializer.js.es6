@@ -51,18 +51,24 @@ export default {
       });
 
       api.modifyClass('component:topic-list-item', {
-        thumbnailWidth: 700,
-        thumbnailHeight: 400,
-        
         buildBuffer(buffer) {
-          const currentRoute = this.get('currentRoute');
-          if (currentRoute === 'news') {
+          if (this.get('currentRoute') === 'news') {
             const template = findRawTemplate("list/news-item");
             if (template) {
               buffer.push(template(this));
             }
           } else {
             return this._super(buffer);
+          }
+        },
+
+        @on('init')
+        setupNewsThumbnails() {
+          if (this.get('currentRoute') === 'news') {
+            this.setProperties({
+              thumbnailWidth: 700,
+              thumbnailHeight: 400
+            });
           }
         }
       });
