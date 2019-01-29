@@ -23,6 +23,8 @@ a.header-nav-link {
 
       tbody {
         border-top: none;
+        width: 100%;
+        display: block;
 
         td {
           padding: 0;
@@ -39,11 +41,6 @@ a.header-nav-link {
           .topic-thumbnail {
             float: initial;
             margin-bottom: 20px;
-
-            img {
-              height: 400px !important;
-              width: 700px !important;
-            }
           }
 
           .topic-title {

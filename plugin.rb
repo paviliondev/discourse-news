@@ -64,6 +64,14 @@ after_initialize do
       end
       super
     end
+
+    def thumbnails
+      if object.news_item
+        original_images
+      else
+        super
+      end
+    end
   end
 
   require_dependency 'topic_list_item_serializer'

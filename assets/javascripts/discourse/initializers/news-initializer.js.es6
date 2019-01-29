@@ -51,6 +51,9 @@ export default {
       });
 
       api.modifyClass('component:topic-list-item', {
+        thumbnailWidth: 700,
+        thumbnailHeight: 400,
+        
         buildBuffer(buffer) {
           const currentRoute = this.get('currentRoute');
           if (currentRoute === 'news') {
