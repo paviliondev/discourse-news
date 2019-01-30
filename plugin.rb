@@ -27,7 +27,7 @@ after_initialize do
         no_definitions: true
       }
 
-      list = TopicQuery.new(current_user, list_opts).public_send("list_latest")
+      list = TopicQuery.new(nil, list_opts).public_send("list_latest")
 
       respond_with_list(list)
     end
