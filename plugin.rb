@@ -21,6 +21,8 @@ after_initialize do
 
   require_dependency 'list_controller'
   class ::ListController
+    skip_before_action :ensure_logged_in, only: [:news]
+
     def news
       list_opts = {
         category: SiteSetting.discourse_news_category,
