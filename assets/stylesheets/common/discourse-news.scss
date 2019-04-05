@@ -21,6 +21,10 @@ a.header-nav-link {
       width: 700px;
       text-align: left;
 
+      thead {
+        display: none;
+      }
+
       tbody {
         border-top: none;
         width: 100%;
