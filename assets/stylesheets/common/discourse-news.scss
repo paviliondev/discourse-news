@@ -6,6 +6,11 @@ a.header-nav-link {
   &.active {
     font-weight: 700;
   }
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .main-content.news .list-controls {

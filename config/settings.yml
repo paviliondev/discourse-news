@@ -7,3 +7,6 @@ plugins:
     type: category
     default: ''
     client: true
+  discourse_news_icon:
+    default: ''
+    client: true

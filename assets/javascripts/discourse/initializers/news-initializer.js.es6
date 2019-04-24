@@ -3,12 +3,14 @@ import { default as computed, on, observes } from 'ember-addons/ember-computed-d
 import { findRawTemplate } from "discourse/lib/raw-templates";
 import { getOwner } from 'discourse-common/lib/get-owner';
 import { wantsNewWindow } from "discourse/lib/intercept-click";
+import { h } from 'virtual-dom';
 
 export default {
   name: 'news-edits',
   initialize(container){
+    const siteSettings = container.lookup('site-settings:main');
 
-    if (!Discourse.SiteSettings.discourse_news_enabled) return;
+    if (!siteSettings.discourse_news_enabled) return;
 
     withPluginApi('0.8.12', (api) => {
       api.modifyClass('controller:discovery', {
@@ -121,17 +123,31 @@ export default {
       api.reopenWidget('header-buttons', {
         html(attrs) {
           let buttons = this._super(attrs) || [];
-          let className = 'header-nav-link';
+          let className = 'header-nav-link news';
 
           if (attrs.currentRoute === 'news') {
             className += ' active';
           }
 
-          buttons.unshift(this.attach('link', {
+          let linkAttrs = {
             href: '/news',
             label: 'filters.news.title',
             className
-          }));
+          }
+
+          const icon = siteSettings.discourse_news_icon;
+          if (icon && icon.indexOf('/') > -1) {
+            linkAttrs['contents'] = () => {
+              return [
+                h('img', { attributes: { src: icon }}),
+                h('span', I18n.t('filters.news.title'))
+              ]
+            }
+          } else if (icon) {
+            linkAttrs['icon'] = icon;
+          }
+
+          buttons.unshift(this.attach('link', linkAttrs));
 
           return buttons;
         }
