@@ -39,6 +39,11 @@ a.header-nav-link {
           padding: 0;
         }
 
+        tr {
+          margin-top: 40px;
+          display: inline-block;
+        }
+
         tr.topic-list-item:first-of-type .topic-thumbnail {
           margin-top: 0;
         }
@@ -50,6 +55,7 @@ a.header-nav-link {
           .topic-thumbnail {
             float: initial;
             margin-bottom: 20px;
+            padding: 0;
           }
 
           .topic-title {
