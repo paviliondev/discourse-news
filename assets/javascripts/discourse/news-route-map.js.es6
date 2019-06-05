@@ -3,4 +3,4 @@ export default {
   map() {
     this.route('news', { path: '/news', resetNamespace: true });
   }
-}
+};

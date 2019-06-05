@@ -3,12 +3,20 @@
 
   <div class="topic-title">
     <span class='link-top-line'>
-      {{topic-link topic}}
+      {{#if topic.rss}}
+        <a href="{{topic.url}}" class="title">{{topic.title}}</a>
+      {{else}}
+        {{topic-link topic}}
+      {{/if}}
     </span>
   </div>
 
   <div class="topic-details">
-    {{raw "list/topic-excerpt" topic=topic}}
+    {{#if topic.rss}}
+      {{topic.description}}
+    {{else}}
+      {{raw "list/topic-excerpt" topic=topic}}
+    {{/if}}
   </div>
 
   <button class="share btn-flat no-text btn-icon"

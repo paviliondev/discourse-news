@@ -1,7 +1,6 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import { default as computed, on, observes } from 'ember-addons/ember-computed-decorators';
 import { findRawTemplate } from "discourse/lib/raw-templates";
-import { getOwner } from 'discourse-common/lib/get-owner';
 import { wantsNewWindow } from "discourse/lib/intercept-click";
 import { h } from 'virtual-dom';
 
@@ -21,7 +20,7 @@ export default {
           const isNewsRoute = route === 'news';
           Ember.run.scheduleOnce('afterRender', () => {
             $('#list-area').toggleClass('news', isNewsRoute);
-          })
+          });
         }
       });
 
@@ -46,7 +45,7 @@ export default {
           const newsRoute = this.get('newsRoute');
           if (newsRoute) {
             const newsCategoryId = Discourse.SiteSettings.discourse_news_category;
-            const newsCategory = this.site.get("categoriesList").find(c => c.id == newsCategoryId);
+            const newsCategory = this.site.get("categoriesList").find(c => c.id === newsCategoryId);
             this.set('category', newsCategory);
           }
         }
@@ -133,7 +132,7 @@ export default {
             href: '/news',
             label: 'filters.news.title',
             className
-          }
+          };
 
           const icon = siteSettings.discourse_news_icon;
           if (icon && icon.indexOf('/') > -1) {
@@ -141,8 +140,8 @@ export default {
               return [
                 h('img', { attributes: { src: icon }}),
                 h('span', I18n.t('filters.news.title'))
-              ]
-            }
+              ];
+            };
           } else if (icon) {
             linkAttrs['icon'] = icon;
           }
@@ -151,7 +150,7 @@ export default {
 
           return buttons;
         }
-      })
+      });
     });
   }
-}
+};

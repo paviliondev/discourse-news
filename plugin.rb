@@ -11,17 +11,30 @@ enabled_site_setting :discourse_news_enabled
 
 load File.expand_path('../lib/validators/allow_news_enabled_validator.rb', __FILE__)
 
+gem 'rss', '0.2.8'
+
 NEWS_THUMB_HEIGHT = 400
 NEWS_THUMB_WIDTH = 700
 
 after_initialize do
   Discourse::Application.routes.prepend do
     get '/news' => 'list#news'
+    get '/news/rss' => 'list#news_rss'
   end
+
+  require_dependency 'application_controller'
+  module ::News
+    class Engine < ::Rails::Engine
+      engine_name 'news'
+      isolate_namespace News
+    end
+  end
+
+  load File.expand_path('../lib/news/rss.rb', __FILE__)
 
   require_dependency 'list_controller'
   class ::ListController
-    skip_before_action :ensure_logged_in, only: [:news]
+    skip_before_action :ensure_logged_in, only: [:news, :news_rss]
 
     def news
       list_opts = {
@@ -32,6 +45,10 @@ after_initialize do
       list = TopicQuery.new(nil, list_opts).public_send("list_latest")
 
       respond_with_list(list)
+    end
+
+    def news_rss
+      render json: success_json.merge(list: News::Rss.get_feed_items(SiteSetting.discourse_news_rss))
     end
   end
 

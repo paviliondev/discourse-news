@@ -3,10 +3,19 @@ plugins:
     default: false
     validator: AllowNewsEnabledValidator
     client: true
+  discourse_news_source:
+    default: "category"
+    client: true
+    type: enum
+    choices:
+      - category
+      - rss
   discourse_news_category:
     type: category
     default: ''
     client: true
+  discourse_news_rss:
+    default: ''
   discourse_news_icon:
     default: ''
     client: true
