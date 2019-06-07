@@ -10,13 +10,7 @@ class News::Rss
   end
 
   def self.get_feed_items(url)
-    items = []
-    open(url) do |rss|
-      feed = ::RSS::Parser.parse(rss)
-      feed.items.each do |item|
-        items.push(self.new(item))
-      end
-    end
-    items
+    rss = SimpleRSS.parse open(url)
+    rss.items.map { |item| self.new(item) }
   end
 end
