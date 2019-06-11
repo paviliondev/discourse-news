@@ -46,7 +46,14 @@ after_initialize do
     end
 
     def news_rss
-      render json: success_json.merge(list: News::Rss.get_feed_items(SiteSetting.discourse_news_rss))
+      feed_url = SiteSetting.discourse_news_rss
+      feed = News::Rss.cached_feed(feed_url)
+
+      unless feed.present?
+        feed = News::Rss.get_feed_items(feed_url)
+      end
+
+      render json: success_json.merge(list: feed)
     end
   end
 

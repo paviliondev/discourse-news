@@ -25,7 +25,11 @@ class News::Rss
 
   def self.get_feed_items(url)
     rss = self.get_parsed_feed(url)
-    rss.items.map { |item| self.new(item) }
+    items = rss.items.map { |item| self.new(item) }
+
+    self.cache_feed(url, items)
+
+    items
   end
 
   def self.get_parsed_feed(url)
@@ -56,5 +60,17 @@ class News::Rss
     end
   rescue ArgumentError
     nil
+  end
+
+  def self.cached_feed(url)
+    Discourse.cache.fetch(self.cache_key(url))
+  end
+
+  def self.cache_feed(url, feed)
+    Discourse.cache.write(self.cache_key(url), feed, force: true, expires_in: 1.hour)
+  end
+
+  def self.cache_key(url)
+    "news_rss:#{url}"
   end
 end
