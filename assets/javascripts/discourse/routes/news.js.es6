@@ -14,6 +14,7 @@ export default buildTopicRoute('news', {
               title: t.title,
               description: t.description,
               url: t.url,
+              image_url: t.image_url,
               rss: true
             });
           })

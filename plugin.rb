@@ -11,8 +11,6 @@ enabled_site_setting :discourse_news_enabled
 
 load File.expand_path('../lib/validators/allow_news_enabled_validator.rb', __FILE__)
 
-gem "simple-rss", "1.3.3"
-
 NEWS_THUMB_HEIGHT = 400
 NEWS_THUMB_WIDTH = 700
 

@@ -1,5 +1,9 @@
 <td class='main-link news-item clearfix' colspan="{{titleColSpan}}">
-  {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+  {{#if topic.rss}}
+    {{raw "list/topic-thumbnail" topic=topic thumbnails=topic.image_url opts=thumbnailOpts}}
+  {{else}}
+    {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+  {{/if}}
 
   <div class="topic-title">
     <span class='link-top-line'>
