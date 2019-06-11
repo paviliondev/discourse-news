@@ -83,7 +83,11 @@ export default {
 
         @computed('newsRoute')
         showNewsMeta(newsRoute) {
-          return !newsRoute && Discourse.SiteSettings.discourse_news_meta;
+          const siteSettings = Discourse.SiteSettings;
+          const source = siteSettings.discourse_news_source;
+          const topicSource = source === 'category';
+          const metaEnabled = siteSettings.discourse_news_meta;
+          return newsRoute && topicSource && metaEnabled;
         }
       });
 
