@@ -52,8 +52,10 @@ export default {
       });
 
       api.modifyClass('component:topic-list-item', {
+        newsRoute: Ember.computed.alias('parentView.newsRoute'),
+
         buildBuffer(buffer) {
-          if (this.get('currentRoute') === 'news') {
+          if (this.get('newsRoute')) {
             const template = findRawTemplate("list/news-item");
             if (template) {
               buffer.push(template(this));
@@ -64,13 +66,24 @@ export default {
         },
 
         @on('init')
-        setupNewsThumbnails() {
-          if (this.get('currentRoute') === 'news') {
+        setupNews() {
+          if (this.get('newsRoute')) {
             this.setProperties({
               thumbnailWidth: 700,
               thumbnailHeight: 400
             });
+
+            if (this.get('showNewsMeta')) {
+              Ember.run.scheduleOnce('afterRender', () => {
+                this._setupActions();
+              });
+            }
           }
+        },
+
+        @computed('newsRoute')
+        showNewsMeta(newsRoute) {
+          return newsRoute && Discourse.SiteSettings.discourse_news_meta;
         }
       });
 
