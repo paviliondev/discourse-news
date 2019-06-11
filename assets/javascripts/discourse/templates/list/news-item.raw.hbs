@@ -17,15 +17,27 @@
 
   <div class="topic-details">
     {{#if topic.rss}}
-      {{topic.description}}
+      {{{topic.description}}}
     {{else}}
       {{raw "list/topic-excerpt" topic=topic}}
     {{/if}}
   </div>
 
-  <button class="share btn-flat no-text btn-icon"
-    data-share-url="{{topic.url}}"
-    data-post-number="1">
-    {{d-icon 'link'}}
-  </button>
+
+  <div class="topic-gutter">
+    {{#if showNewsMeta}}
+      {{category-link topic.category}}
+      <div class='topic-replies posts-map {{likesHeat}}' title='{{title}}'>
+        <a href class='posts-map badge-posts {{likesHeat}}'>{{number topic.replyCount}}</a>
+        <span>{{i18n 'replies_lowercase' count=topic.replyCount}}</span>
+      </div>
+      {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
+    {{/if}}
+
+    <button class="share btn-flat no-text btn-icon"
+      data-share-url="{{topic.url}}"
+      data-post-number="1">
+      {{d-icon 'link'}}
+    </button>
+  </div>
 </td>

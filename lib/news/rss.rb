@@ -6,6 +6,8 @@ require_dependency 'encodings'
 PARSING_ERRORS = [::RSS::NotWellFormedError, ::RSS::InvalidRSSError]
 
 class News::Rss
+  include ActiveModel::SerializerSupport
+ 
   attr_accessor :title,
                 :description,
                 :url,

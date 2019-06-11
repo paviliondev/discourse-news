@@ -29,6 +29,7 @@ after_initialize do
   end
 
   load File.expand_path('../lib/news/rss.rb', __FILE__)
+  load File.expand_path('../serializers/news/rss_serializer.rb', __FILE__)
 
   require_dependency 'list_controller'
   class ::ListController
@@ -53,7 +54,7 @@ after_initialize do
         feed = News::Rss.get_feed_items(feed_url)
       end
 
-      render json: success_json.merge(list: feed)
+      render json: ActiveModel::ArraySerializer.new(feed, each_serializer: News::RssSerializer, root: false)
     end
   end
 
@@ -84,7 +85,7 @@ after_initialize do
       if object.news_item
         doc = Nokogiri::HTML::fragment(object.previewed_post.cooked)
         doc.search('.//img').remove
-        return PrettyText.excerpt(doc.to_html, 10000, keep_emoji_images: true)
+        return PrettyText.excerpt(doc.to_html, SiteSetting.discourse_news_excerpt_length, keep_emoji_images: true)
       end
       super
     end

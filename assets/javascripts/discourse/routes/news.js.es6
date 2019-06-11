@@ -9,7 +9,7 @@ export default buildTopicRoute('news', {
       return ajax("/news/rss").then((result) => {
         return Ember.Object.create({
           filter: '',
-          topics: result.list.map(t => {
+          topics: result.map(t => {
             return Ember.Object.create({
               title: t.title,
               description: t.description,

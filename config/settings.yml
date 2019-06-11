@@ -19,3 +19,8 @@ plugins:
   discourse_news_icon:
     default: ''
     client: true
+  discourse_news_excerpt_length:
+    default: 10000
+  discourse_news_meta:
+    default: false
+    client: true

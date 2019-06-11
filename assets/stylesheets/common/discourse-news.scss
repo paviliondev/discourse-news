@@ -71,9 +71,21 @@ a.header-nav-link {
             max-height: initial;
           }
 
-          button.share {
+          .topic-gutter {
             margin: 10px 0;
-            float: right;
+            display: flex;
+          }
+
+          .topic-actions {
+            margin-left: auto;
+          }
+
+          button.share {
+            margin-left: auto;
+          }
+
+          .topic-actions + button.share {
+            margin-left: initial;
           }
         }
       }
