@@ -83,7 +83,7 @@ export default {
 
         @computed('newsRoute')
         showNewsMeta(newsRoute) {
-          return newsRoute && Discourse.SiteSettings.discourse_news_meta;
+          return !newsRoute && Discourse.SiteSettings.discourse_news_meta;
         }
       });
 
