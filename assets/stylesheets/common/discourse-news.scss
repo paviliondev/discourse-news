@@ -3,7 +3,7 @@ a.header-nav-link {
   font-size: 1.1em;
   color: $primary;
 
-  &.active {
+  &.active, &:hover {
     font-weight: 700;
   }
 

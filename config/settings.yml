@@ -11,7 +11,7 @@ plugins:
       - category
       - rss
   discourse_news_category:
-    type: category
+    type: category_list
     default: ''
     client: true
   discourse_news_rss:

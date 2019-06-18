@@ -36,14 +36,7 @@ after_initialize do
     skip_before_action :ensure_logged_in, only: [:news, :news_rss]
 
     def news
-      list_opts = {
-        category: SiteSetting.discourse_news_category,
-        no_definitions: true
-      }
-
-      list = TopicQuery.new(nil, list_opts).public_send("list_latest")
-
-      respond_with_list(list)
+      respond_with_list(TopicQuery.new(nil).list_news)
     end
 
     def news_rss
@@ -55,6 +48,20 @@ after_initialize do
       end
 
       render json: ActiveModel::ArraySerializer.new(feed, each_serializer: News::RssSerializer, root: false)
+    end
+  end
+
+  require_dependency 'topic_query'
+  class ::TopicQuery
+    def list_news
+      category_ids = [*SiteSetting.discourse_news_category.split("|")]
+      topics = Topic.joins(:category).where('categories.id IN (?)', category_ids)
+
+      list_opts = {
+        no_definitions: true
+      }
+
+      create_list(:news, list_opts, topics)
     end
   end
 
