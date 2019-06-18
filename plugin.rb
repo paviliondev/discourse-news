@@ -36,7 +36,7 @@ after_initialize do
     skip_before_action :ensure_logged_in, only: [:news, :news_rss]
 
     def news
-      respond_with_list(TopicQuery.new(nil).list_news)
+      respond_with_list(TopicQuery.new(current_user).list_news)
     end
 
     def news_rss
@@ -60,6 +60,11 @@ after_initialize do
       list_opts = {
         no_definitions: true
       }
+
+      if @user
+        topics = topics.joins("LEFT OUTER JOIN topic_users AS tu ON (topics.id = tu.topic_id AND tu.user_id = #{@user.id.to_i})")
+          .references('tu')
+      end
 
       create_list(:news, list_opts, topics)
     end
