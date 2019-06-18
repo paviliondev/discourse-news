@@ -24,6 +24,21 @@ export default {
         }
       });
 
+      api.modifyClass('controller:discovery/topics', {
+        actions: {
+          refresh() {
+            const discovery = this.get('discovery');
+            const route = discovery.get('application.currentRouteName');
+            const isNewsRoute = route === 'news';
+            if (isNewsRoute) {
+              return;
+            } else {
+              return this._super();
+            }
+          }
+        }
+      });
+
       api.modifyClass('component:topic-list', {
         @computed('newsRoute')
         routeEnabled(newsRoute) {
