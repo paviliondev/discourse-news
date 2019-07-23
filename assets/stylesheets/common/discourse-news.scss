@@ -53,6 +53,7 @@ a.header-nav-link {
         tr {
           margin-top: 40px;
           display: inline-block;
+          width: 100%;
         }
 
         tr.topic-list-item:first-of-type .topic-thumbnail {
@@ -61,6 +62,7 @@ a.header-nav-link {
 
         .news-item {
           width: 100%;
+          display: block;
           box-sizing: border-box;
 
           .topic-thumbnail {
