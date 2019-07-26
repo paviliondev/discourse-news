@@ -65,6 +65,8 @@ after_initialize do
         topics = topics.joins("LEFT OUTER JOIN topic_users AS tu ON (topics.id = tu.topic_id AND tu.user_id = #{@user.id.to_i})")
           .references('tu')
       end
+      
+      topics = apply_ordering(topics, {})
 
       create_list(:news, list_opts, topics)
     end
