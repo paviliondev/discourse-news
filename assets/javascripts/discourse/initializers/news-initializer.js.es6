@@ -62,6 +62,9 @@ export default {
             const newsCategoryId = Discourse.SiteSettings.discourse_news_category;
             const newsCategory = this.site.get("categoriesList").find(c => c.id === newsCategoryId);
             this.set('category', newsCategory);
+            $('body').addClass('news');
+          } else {
+            $('body').removeClass('news');
           }
         }
       });
