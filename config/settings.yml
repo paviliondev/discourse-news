@@ -24,3 +24,9 @@ plugins:
   discourse_news_meta:
     default: false
     client: true
+  discourse_news_sort:
+    type: enum
+    default: "bumped_at"
+    choices:
+      - bumped_at
+      - created_at

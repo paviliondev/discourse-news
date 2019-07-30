@@ -19,7 +19,7 @@ after_initialize do
     get '/news' => 'list#news'
     get '/news/rss' => 'list#news_rss'
   end
-
+  
   require_dependency 'application_controller'
   module ::News
     class Engine < ::Rails::Engine
@@ -66,7 +66,8 @@ after_initialize do
           .references('tu')
       end
       
-      topics = apply_ordering(topics, {})
+      sort_column = SiteSetting.discourse_news_sort
+      topics = topics.order("topics.#{sort_column} DESC")
 
       create_list(:news, list_opts, topics)
     end

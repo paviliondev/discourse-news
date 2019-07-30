@@ -7,6 +7,7 @@ en:
     discourse_news_icon: "News icon (font awesome class or image url)"
     discourse_news_excerpt_length: "News excerpt character length"
     discourse_news_meta: "Show topic meta in news topics"
+    discourse_news_sort: "Topic property to sort by for news category."
 
     errors:
       topic_list_previews_not_installed: "The News Plugin requires the Topic List Previews Plugin to be installed"
