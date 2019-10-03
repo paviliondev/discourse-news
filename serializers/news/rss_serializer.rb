@@ -1,4 +1,4 @@
-class News::RssSerializer < ApplicationSerializer
+class News::RssSerializer < ::ApplicationSerializer
   attributes :title,
              :description,
              :url,
