@@ -71,12 +71,13 @@ export default {
 
       api.modifyClass('component:topic-list-item', {
         newsRoute: Ember.computed.alias('parentView.newsRoute'),
-
-        buildBuffer(buffer) {
+        
+        @observes("topic.pinned")
+        renderTopicListItem() {
           if (this.get('newsRoute')) {
             const template = findRawTemplate("list/news-item");
             if (template) {
-              buffer.push(template(this));
+              this.set("topicListItemContents", template(this).htmlSafe());
             }
           } else {
             return this._super(buffer);
