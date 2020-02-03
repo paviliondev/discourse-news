@@ -42,7 +42,7 @@ body.news #main-outlet {
   }
   
   .topic-list-contents {
-    width: 700px;
+    width: 750px;
   }
   
   .contents {
@@ -127,10 +127,13 @@ body.news #main-outlet {
           .news-item-gutter {
             margin: 10px 0;
             display: flex;
-            justify-content: space-between;
             
             .posts-map {
               font-size: 1em;
+            }
+            
+            button.share {
+              margin-left: auto;
             }
           }
         }
@@ -146,7 +149,7 @@ body.news #main-outlet {
     padding: 0px 0 0 30px;
     border-left: 1px solid $primary-low;
     margin-left: 40px;
-    flex: 1 1 auto;
+    max-width: 300px;
     
     .sidebar-title {
       padding-bottom: 5px;
