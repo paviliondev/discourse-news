@@ -32,7 +32,16 @@
       </div>
       <ul>
         {{#each sidebarTopics as |topic|}}
-          <li>{{topic-link topic}}</li>
+          <li>
+            <div class="sidebar-topic-title">{{topic-link topic}}</div>
+            <div class="sidebar-topic-meta">
+              <span>{{format-date topic.bumpedAt leaveAgo="true"}}</span>
+              <span>{{i18n 'changed_by' author=topic.creator.username}}</span>
+              {{#if topic.category}}
+                <span>{{{i18n 'in_category' basicCategoryLink=topic.basicCategoryLinkHtml}}}</span>
+              {{/if}}
+            </div>
+          </li>
         {{/each}}
       </ul>
     {{/if}}

@@ -1,5 +1,7 @@
 en:
   js:
+    in_category: "in {{basicCategoryLink}}"
+    
     news:
       sidebar_topics_title: "Latest"
     

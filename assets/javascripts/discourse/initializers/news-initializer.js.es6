@@ -163,9 +163,18 @@ export default {
       });
       
       api.modifyClass('model:topic', {                
-        @discourseComputed("news_excerpt")
-        escapedNewsExcerpt(newsExcerpt) {
-          return emojiUnescape(newsExcerpt);
+        @discourseComputed("news_body")
+        escapedNewsBody(newsBody) {
+          return emojiUnescape(newsBody);
+        },
+        
+        @discourseComputed("category")
+        basicCategoryLinkHtml(category) {
+          return `<a class="basic-category-link"
+                     href="${category.url}"
+                     title="${category.name}">
+                    ${category.name}
+                  </a>`;
         }
       });
       

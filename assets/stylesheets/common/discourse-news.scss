@@ -87,8 +87,7 @@ body.news #main-outlet {
 
           .news-item-thumbnail {
             float: initial;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin: 20px 0;
             padding: 0;
             
             img {
@@ -164,8 +163,18 @@ body.news #main-outlet {
       li {
         margin: 10px 0;
         
-        a {
+        .sidebar-topic-title a {
           color: $primary;
+        }
+        
+        .sidebar-topic-meta {
+          font-size: 0.8em;
+          color: rgba($primary-medium, 0.8);
+        }
+        
+        .sidebar-topic-meta a {
+          font-size: 1em;
+          color: rgba($primary-medium, 0.8);
         }
       }
     }

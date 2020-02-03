@@ -1,4 +1,9 @@
 <td class='main-link news-item clearfix' colspan="{{titleColSpan}}">
+  
+  {{#unless siteSettings.discourse_news_title_below_image}}
+    {{raw "list/news-item-title" topic=topic}}
+  {{/unless}}
+  
   {{#if topic.image_url}}
     <div class="news-item-thumbnail">
       <a href='{{topic.url}}'>
@@ -6,30 +11,16 @@
       </a>
     </div>
   {{/if}}
-
-  <div class="news-item-title">
-    <span class='link-top-line'>
-      {{#if topic.rss}}
-        <a href="{{topic.url}}" class="title">{{{topic.title}}}</a>
-      {{else}}
-        {{topic-link topic}}
-      {{/if}}
-    </span>
-    
-    <div class="link-bottom-line">
-      <div class="news-item-author">{{topic.creator.displayName}}</div>
-      <span>|</span>
-      <div class="news-item-date">
-        {{format-date topic.created_at}}
-      </div>
-    </div>
-  </div>
+  
+  {{#if siteSettings.discourse_news_title_below_image}}
+    {{raw "list/news-item-title" topic=topic}}
+  {{/if}}
 
   <div class="news-item-body">
     {{#if topic.rss}}
       {{{topic.description}}}
     {{else}}
-      {{{topic.escapedNewsExcerpt}}}
+      {{{topic.escapedNewsBody}}}
     {{/if}}
   </div>
 

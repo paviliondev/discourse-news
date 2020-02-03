@@ -67,8 +67,8 @@ after_initialize do
     category_ids.include? category_id.to_i
   end
   
-  add_to_class(:topic, :news_excerpt) do
-    @news_excerpt ||= begin
+  add_to_class(:topic, :news_body) do
+    @news_body ||= begin
       if news_item
         News::Item.generate_body(first_post.cooked, image_url)
       else
@@ -79,7 +79,7 @@ after_initialize do
   
   module TopicNewsExtension
     def reload(options = nil)
-      @news_excerpt = nil
+      @news_body = nil
       super(options)
     end
   end
@@ -88,11 +88,11 @@ after_initialize do
     prepend TopicNewsExtension
   end
   
-  add_to_serializer(:topic_list_item, :include_news_excerpt?) do
+  add_to_serializer(:topic_list_item, :include_news_body?) do
     object.news_item
   end
   
-  add_to_serializer(:topic_list_item, :news_excerpt) do
-    object.news_excerpt
+  add_to_serializer(:topic_list_item, :news_body) do
+    object.news_body
   end
 end

@@ -18,6 +18,9 @@ plugins:
   discourse_news_icon:
     default: ''
     client: true
+  discourse_news_title_below_image:
+    default: false
+    client: true
   discourse_news_show_reply_count:
     default: false
     client: true
