@@ -4,7 +4,7 @@
 # about: Adds a news stream to your Discourse instance
 # version: 0.3
 # authors: Angus McLeod
-# url: https://github.com/angusmcleod/discourse-news
+# url: https://github.com/paviliondev/discourse-news
 
 register_asset 'stylesheets/common/discourse-news.scss'
 register_asset 'stylesheets/mobile/discourse-news.scss', :mobile
