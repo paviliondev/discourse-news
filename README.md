@@ -1,10 +1,10 @@
+## Discourse News
+
 The News Plugin is a [Discourse plugin](https://github.com/discourse/discourse) that adds a new "News" route to your forum. The latest topics in a category(s) (or from an RSS feed) are displayed in a large, news-like format, with an optional sidebar with a topic list. It adds a link to the News route in the header bar.
 
 ![Screen Shot 2020-02-03 at 10.23.34 PM|690x475](https://d11a6trkgmumsb.cloudfront.net/original/3X/4/d/4daf56ee495b713f777a3797b7df44bed55f0919.jpeg) 
 
 It is inspired by the [Elektronauts news feed](https://www.elektronauts.com/news).
-
-<a href="https://github.com/paviliondev/discourse-news"  target="_blank">:page_facing_up: Get the code</a>
 
 <a href="https://try.thepavilion.io"  target="_blank"> :desktop_computer: See an example</a>
 
