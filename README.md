@@ -12,12 +12,10 @@ It is inspired by the [Elektronauts news feed](https://www.elektronauts.com/news
 
 <a href="https://thepavilion.io/w/bug-report"  target="_blank">:bug: Report a bug</a>
 
-#### Lost?
+### Notes
 
 - Not sure how to install a Discourse plugin? [Follow the steps here](https://meta.discourse.org/t/install-plugins-in-discourse/19157). 
 
 - Make sure you check out all the site settings for this plugin by searching for "News" in your admin settings.
 
-#### Bugs and Features
-
-The primary place to report bugs or request features is over at [thepavilion.io](https://thepavilion.io). It's easier for us to manage them there, than across multiple repositories.
+- The place to report bugs or request features is over at [thepavilion.io](https://thepavilion.io). It's easier for us to manage them there, than across multiple repositories.
