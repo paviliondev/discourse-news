@@ -7,46 +7,57 @@
 register_asset 'stylesheets/common/discourse-news.scss'
 register_asset 'stylesheets/mobile/discourse-news.scss', :mobile
 
-add_admin_route 'news.title', 'news'
-
 enabled_site_setting :discourse_news_enabled
 
 after_initialize do
   %w[
     ../lib/news/engine.rb
+    ../lib/news/item.rb
     ../lib/news/rss.rb
-    ../lib/news/topic.rb
+    ../lib/news/rss_topic_list.rb
     ../config/routes.rb
-    ../app/controllers/news/admin_controller.rb
     ../app/serializers/news/rss_serializer.rb
-    ../jobs/update_news_excerpts.rb
   ].each do |path|
     load File.expand_path(path, __FILE__)
   end
   
   add_to_class(:list_controller, :news) do
-    respond_with_list(TopicQuery.new(current_user).list_news)
-  end
-  
-  add_to_class(:list_controller, :news_rss) do
-    feed_url = SiteSetting.discourse_news_rss
-    feed = News::Rss.cached_feed(feed_url)
-
-    unless feed.present?
-      feed = News::Rss.get_feed_items(feed_url)
+    if SiteSetting.discourse_news_source == 'rss'
+      feed_url = SiteSetting.discourse_news_rss
+      feed = News::Rss.get_feed_items(feed_url) ## TODO implement caching: News::Rss.cached_feed(feed_url)
+      
+      serialized = ActiveModel::ArraySerializer.new(feed, each_serializer: News::RssSerializer, root: false)
+      
+      respond_to do |format|
+        format.html do
+          @list = RssTopicList.new(feed, nil)
+          store_preloaded("topic_list_news_rss", MultiJson.dump(serialized))
+          render 'list/list'
+        end
+        format.json do
+          render json: serialized
+        end
+      end
+    else
+      respond_with_list(TopicQuery.new(current_user).list_news)
     end
-
-    render json: ActiveModel::ArraySerializer.new(feed, each_serializer: News::RssSerializer, root: false)
   end
   
   add_to_class(:topic_query, :list_news) do
     category_ids = [*SiteSetting.discourse_news_category.split("|")]
+    
     topics = Topic.joins(:category).where('categories.id IN (?)', category_ids)
-    topics = topics.joins("LEFT OUTER JOIN topic_users AS tu ON (topics.id = tu.topic_id AND tu.user_id = #{@user.id.to_i})")
-      .references('tu') if @user
+    topics = topics.joins("
+      LEFT OUTER JOIN topic_users AS tu ON (
+        topics.id = tu.topic_id AND tu.user_id = #{@user.id.to_i}
+      )"
+    ).references('tu') if @user
+    
+    topics = topics.where('COALESCE(categories.topic_id, 0) <> topics.id')
+    
     topics = topics.order("topics.#{SiteSetting.discourse_news_sort} DESC")
 
-    create_list(:news, { no_definitions: true }, topics)
+    create_list(:news, {}, topics)
   end
   
   add_to_class(:topic, :news_item) do
@@ -55,18 +66,24 @@ after_initialize do
   end
   
   add_to_class(:topic, :news_excerpt) do
-    if news_item
-      custom_fields['news_excerpt'] || ''
-    else
-      nil
+    @news_excerpt ||= begin
+      if news_item
+        News::Item.generate_body(first_post.cooked, image_url)
+      else
+        nil
+      end
     end
   end
   
-  add_model_callback(:post, :after_commit) do
-    if is_first_post? && topic.news_item
-      topic.custom_fields['news_excerpt'] = News::Topic.generate_excerpt(topic)
-      topic.save_custom_fields(true)
+  module TopicNewsExtension
+    def reload(options = nil)
+      @news_excerpt = nil
+      super(options)
     end
+  end
+  
+  class ::Topic
+    prepend TopicNewsExtension
   end
   
   add_to_serializer(:topic_list_item, :include_news_excerpt?) do
@@ -76,6 +93,4 @@ after_initialize do
   add_to_serializer(:topic_list_item, :news_excerpt) do
     object.news_excerpt
   end
-  
-  TopicList.preloaded_custom_fields << 'news_excerpt' if TopicList.respond_to? :preloaded_custom_fields
 end

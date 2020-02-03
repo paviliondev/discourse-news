@@ -1,13 +1,8 @@
 en:
   js:
+    news:
+      sidebar_topics_title: "Latest"
+    
     filters:
       news:
         title: "News"
-  
-  admin_js:
-    news:
-      title: "News"
-      excerpt:
-        update: "Update excerpts"
-        updating: "Updating news excerpts. This may take a few minutes."
-        update_failed: "Failed to update news excerpts. Check news site settings."

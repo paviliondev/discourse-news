@@ -1,0 +1,1 @@
+RssTopicList = Struct.new(:topics, :more_topics_url)

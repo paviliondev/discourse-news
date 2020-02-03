@@ -18,9 +18,7 @@ plugins:
   discourse_news_icon:
     default: ''
     client: true
-  discourse_news_excerpt_length:
-    default: 10000
-  discourse_news_meta:
+  discourse_news_show_replies:
     default: false
     client: true
   discourse_news_sort:
@@ -29,3 +27,12 @@ plugins:
     choices:
       - bumped_at
       - created_at
+  discourse_news_sidebar_topic_list:
+    default: true
+    client: true
+  discourse_news_sidebar_topic_list_filter:
+    default: 'latest'
+    client: true
+  discourse_news_sidebar_topic_list_limit:
+    default: 10
+    client: true

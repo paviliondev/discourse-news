@@ -12,16 +12,38 @@ class News::Rss
                 :description,
                 :url,
                 :image_url
+              
+  attr_accessor :category,
+                :pinned_until,
+                :last_posted_at,
+                :created_at,
+                :posts_count
 
   def initialize(attrs)
+    @attrs = attrs
     @title = attrs.title
-    @description = attrs.description
     @url = attrs.link
-
-    if attrs.enclosure &&
-       attrs.enclosure.type.include?("image") &&
-       attrs.enclosure.url
-      @image_url = attrs.enclosure.url
+        
+    @category = nil
+    @pinned_until = nil
+    @last_posted_at = nil
+    @created_at = attrs.pubDate || Date.now
+    @posts_count = nil
+  end
+  
+  def description
+    @description ||= News::Item.generate_body(@attrs.description, @image_url)
+  end
+  
+  def image_url
+    @image_url ||= begin
+      if @attrs.enclosure &&
+         @attrs.enclosure.type.include?("image") &&
+         @attrs.enclosure.url
+        @attrs.enclosure.url
+      else
+        nil
+      end
     end
   end
 
@@ -69,7 +91,11 @@ class News::Rss
   end
 
   def self.cache_feed(url, feed)
-    Discourse.cache.write(self.cache_key(url), feed, force: true, expires_in: 1.hour)
+    Discourse.cache.write(self.cache_key(url), feed, expires_in: 5.minutes)
+  end
+  
+  def self.clear_cache(url)
+    Discourse.cache.delete(self.cache_key(url))
   end
 
   def self.cache_key(url)

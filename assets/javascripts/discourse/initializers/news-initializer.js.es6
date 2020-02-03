@@ -75,24 +75,12 @@ export default {
           }
         },
 
-        @on('init')
-        setupNews() {
-          if (this.get('newsRoute')) {
-            if (this.get('showNewsMeta')) {
-              Ember.run.scheduleOnce('afterRender', () => {
-                this._setupActions();
-              });
-            }
-          }
-        },
-
         @discourseComputed('newsRoute')
-        showNewsMeta(newsRoute) {
+        showReplies(newsRoute) {
           const siteSettings = Discourse.SiteSettings;
-          const source = siteSettings.discourse_news_source;
-          const topicSource = source === 'category';
-          const metaEnabled = siteSettings.discourse_news_meta;
-          return newsRoute && topicSource && metaEnabled;
+          const topicSource = siteSettings.discourse_news_source === 'category';
+          const showReplies = siteSettings.discourse_news_show_replies;
+          return newsRoute && topicSource && showReplies;
         }
       });
 
@@ -174,17 +162,22 @@ export default {
         }
       });
       
-      api.modifyClass('model:topic', {        
-        hasNewsExcerpt: notEmpty("news_excerpt"),
-        
+      api.modifyClass('model:topic', {                
         @discourseComputed("news_excerpt")
         escapedNewsExcerpt(newsExcerpt) {
           return emojiUnescape(newsExcerpt);
+        }
+      });
+      
+      api.modifyClass('controller:discovery/topics', {
+        @discourseComputed('showSidebarTopics')
+        showSidebar(showSidebarTopics) {
+          return showSidebarTopics && !this.site.mobileView;
         },
-
-        @discourseComputed("news_excerpt")
-        newsExcerptTruncated(newsExcerpt) {
-          return newsExcerpt && newsExcerpt.substr(newsExcerpt.length - 8, 8) === "&hellip;";
+        
+        @discourseComputed('sidebarTopics')
+        showSidebarTopics(sidebarTopics) {
+          return sidebarTopics && siteSettings.discourse_news_sidebar_topic_list;
         }
       })
     });

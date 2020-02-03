@@ -1,0 +1,50 @@
+<div class="topic-list-contents">
+  {{#discovery-topics-list model=model refresh=(action "refresh") incomingCount=topicTrackingState.incomingCount as |discoveryTopicList|}}
+    {{#if topicTrackingState.hasIncoming}}
+      <div class="show-more {{if hasTopics 'has-topics'}}">
+        <div class='alert alert-info clickable' {{action "showInserted"}}>
+          <a tabindex="0" href="" {{action "showInserted"}}>
+            {{count-i18n key="topic_count_" suffix=topicTrackingState.filter count=topicTrackingState.incomingCount}}
+          </a>
+        </div>
+      </div>
+    {{/if}}
+
+    {{#if hasTopics}}
+      {{topic-list
+        top=top
+        showTopicPostBadges=showTopicPostBadges
+        showPosters=true
+        canBulkSelect=canBulkSelect
+        changeSort=(action "changeSort")
+        toggleBulkSelect=(action "toggleBulkSelect")
+        hideCategory=model.hideCategory
+        order=order
+        ascending=ascending
+        bulkSelectEnabled=bulkSelectEnabled
+        selected=selected
+        expandGloballyPinned=expandGloballyPinned
+        expandAllPinned=expandAllPinned
+        category=category
+        topics=model.topics
+        discoveryList=true
+        scrollOnLoad=true
+        onScroll=discoveryTopicList.saveScrollPosition}}
+    {{/if}}
+  {{/discovery-topics-list}}
+</div>
+
+{{#if showSidebar}}
+  <div class="sidebar">
+    {{#if showSidebarTopics}}
+      <div class="sidebar-title">
+        {{i18n 'news.sidebar_topics_title'}}
+      </div>
+      <ul>
+        {{#each sidebarTopics as |topic|}}
+          <li>{{topic-link topic}}</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </div>
+{{/if}}

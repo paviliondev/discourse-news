@@ -1,13 +1,13 @@
 <td class='main-link news-item clearfix' colspan="{{titleColSpan}}">
   {{#if topic.image_url}}
-    <div class="topic-thumbnail">
+    <div class="news-item-thumbnail">
       <a href='{{topic.url}}'>
         <img src={{topic.image_url}}>
       </a>
     </div>
   {{/if}}
 
-  <div class="topic-title">
+  <div class="news-item-title">
     <span class='link-top-line'>
       {{#if topic.rss}}
         <a href="{{topic.url}}" class="title">{{{topic.title}}}</a>
@@ -15,31 +15,26 @@
         {{topic-link topic}}
       {{/if}}
     </span>
+    
+    <div class="news-item-author">
+      {{topic.creator.displayName}}
+    </div>
   </div>
 
-  <div class="topic-details">
+  <div class="news-item-body">
     {{#if topic.rss}}
       {{{topic.description}}}
     {{else}}
-      {{#if topic.hasNewsExcerpt}}
-        <div class="topic-excerpt">
-          {{{dir-span topic.escapedNewsExcerpt}}}
-          {{#if topic.newsExcerptTruncated}}
-            <a href="{{topic.url}}">{{i18n 'read_more'}}</a>
-          {{/if}}
-        </div>
-      {{/if}}
+      {{{topic.escapedNewsExcerpt}}}
     {{/if}}
   </div>
 
-  <div class="topic-gutter">
-    {{#if showNewsMeta}}
-      {{category-link topic.category}}
-      <div class='topic-replies posts-map {{likesHeat}}' title='{{title}}'>
+  <div class="news-item-gutter">
+    {{#if showReplies}}
+      <div class='news-item-replies posts-map {{likesHeat}}' title='{{title}}'>
         <a href class='posts-map badge-posts {{likesHeat}}'>{{number topic.replyCount}}</a>
         <span>{{i18n 'replies_lowercase' count=topic.replyCount}}</span>
       </div>
-      {{raw "list/topic-actions" likeCount=likeCount topicActions=topicActions}}
     {{/if}}
 
     <button class="share btn-flat no-text btn-icon"

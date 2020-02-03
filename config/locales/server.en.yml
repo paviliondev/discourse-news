@@ -6,8 +6,8 @@ en:
     discourse_news_rss: "News rss feed"
     discourse_news_icon: "News icon (font awesome class or image url)"
     discourse_news_excerpt_length: "News excerpt character length"
-    discourse_news_meta: "Show topic meta in news topics"
-    discourse_news_sort: "Topic property to sort by for news category."
-
-    errors:
-      topic_list_previews_not_installed: "The News Plugin requires the Topic List Previews Plugin to be installed"
+    discourse_news_show_reply_count: "Show reply count in news items (category source only)"
+    discourse_news_sort: "Topic property to sort news items by."
+    discourse_news_sidebar_topic_list: "Show topic list in sidebar on news route."
+    discourse_news_sidebar_topic_list_filter: "Filter to use in news sidebar topic list"
+    discourse_news_sidebar_topic_list_count: "News sidebar topic list count"

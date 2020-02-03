@@ -28,14 +28,26 @@ a.header-nav-link {
   margin: 0;
 }
 
+body.news #main-outlet {
+  > span, .container:not(.list-container), .list-controls {
+    display: none;
+  }
+}
+
 #list-area.news {
+  display: flex;
+  
+  > span {
+    display: none;
+  }
+  
+  .topic-list-contents {
+    width: 700px;
+  }
+  
   .contents {
-    text-align: center;
 
     .topic-list {
-      display: inline-block;
-      width: 700px;
-      text-align: left;
 
       thead {
         display: none;
@@ -51,22 +63,31 @@ a.header-nav-link {
         }
 
         tr {
-          margin-top: 40px;
+          margin-top: 20px;
           display: inline-block;
           width: 100%;
         }
 
-        tr.topic-list-item:first-of-type .topic-thumbnail {
+        tr.topic-list-item:first-of-type {
           margin-top: 0;
+          
+          .news-item-thumbnail {
+            margin-top: 0;
+          }
         }
-
+        
+        tr.topic-list-item:last-of-type {
+          border-bottom: none;
+        }
+        
         .news-item {
           width: 100%;
           display: block;
           box-sizing: border-box;
 
-          .topic-thumbnail {
+          .news-item-thumbnail {
             float: initial;
+            margin-top: 20px;
             margin-bottom: 20px;
             padding: 0;
             
@@ -76,41 +97,61 @@ a.header-nav-link {
             }
           }
 
-          .topic-title {
-            margin-bottom: 15px;
+          .news-item-title {
+            margin: 15px 0;
 
             a {
               font-size: 35px;
               line-height: 40px;
+              color: $primary;
             }
           }
 
-          .topic-details .topic-excerpt {
+          .news-item-body {
             max-height: initial;
+            color: $primary;
           }
 
-          .topic-gutter {
+          .news-item-gutter {
             margin: 10px 0;
             display: flex;
-          }
-
-          .topic-actions {
-            margin-left: auto;
           }
 
           button.share {
             margin-left: auto;
           }
-
-          .topic-actions + button.share {
-            margin-left: initial;
-          }
         }
       }
     }
+    
+    #share-link .title {
+      display: none;
+    }
   }
 
-  .topic-list-bottom {
-    display: none;
+  .sidebar {
+    padding: 0px 0 0 30px;
+    border-left: 1px solid $primary-low;
+    margin-left: 40px;
+    flex: 1 1 auto;
+    
+    .sidebar-title {
+      padding-bottom: 5px;
+      border-bottom: 1px solid $primary-low;
+      font-size: 1.3em;
+    }
+    
+    ul {
+      list-style: none;
+      margin: 0;
+      
+      li {
+        margin: 10px 0;
+        
+        a {
+          color: $primary;
+        }
+      }
+    }
   }
 }

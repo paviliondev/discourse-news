@@ -1,6 +1,5 @@
 #list-area.news {
   .contents {
-
     .topic-list {
       width: 100%;
 
@@ -12,7 +11,7 @@
           width: 100%;
           box-sizing: border-box;
 
-          .topic-thumbnail {
+          .news-item-thumbnail {
             float: initial;
             margin-bottom: 10px;
 
@@ -22,7 +21,7 @@
             }
           }
 
-          .topic-title {
+          .news-item-title {
             margin-bottom: 5px;
 
             a {
@@ -31,7 +30,7 @@
             }
           }
 
-          .topic-excerpt {
+          .news-item-body {
             margin-top: 0;
           }
 
