@@ -1,5 +1,7 @@
-# name: Discourse News
-# about: Adds a "News" stream to your Discourse instance
+# frozen_string_literal: true
+
+# name: discourse-news
+# about: Adds a news stream to your Discourse instance
 # version: 0.3
 # authors: Angus McLeod
 # url: https://github.com/angusmcleod/discourse-news
