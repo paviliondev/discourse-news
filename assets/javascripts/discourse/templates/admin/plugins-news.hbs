@@ -1,0 +1,7 @@
+{{d-button action="updateExcerpts" label="news.excerpt.update"}}
+
+{{conditional-loading-spinner condition=loading size="small"}}
+
+{{#if message}}
+  <span>{{message}}</span>
+{{/if}}

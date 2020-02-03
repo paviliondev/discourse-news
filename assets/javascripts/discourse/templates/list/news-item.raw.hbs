@@ -1,8 +1,10 @@
 <td class='main-link news-item clearfix' colspan="{{titleColSpan}}">
-  {{#if topic.rss}}
-    {{raw "list/topic-thumbnail" topic=topic thumbnails=topic.image_url opts=thumbnailOpts}}
-  {{else}}
-    {{raw "list/topic-thumbnail" topic=topic thumbnails=thumbnails category=category opts=thumbnailOpts}}
+  {{#if topic.image_url}}
+    <div class="topic-thumbnail">
+      <a href='{{topic.url}}'>
+        <img src={{topic.image_url}}>
+      </a>
+    </div>
   {{/if}}
 
   <div class="topic-title">
@@ -19,10 +21,16 @@
     {{#if topic.rss}}
       {{{topic.description}}}
     {{else}}
-      {{raw "list/topic-excerpt" topic=topic}}
+      {{#if topic.hasNewsExcerpt}}
+        <div class="topic-excerpt">
+          {{{dir-span topic.escapedNewsExcerpt}}}
+          {{#if topic.newsExcerptTruncated}}
+            <a href="{{topic.url}}">{{i18n 'read_more'}}</a>
+          {{/if}}
+        </div>
+      {{/if}}
     {{/if}}
   </div>
-
 
   <div class="topic-gutter">
     {{#if showNewsMeta}}

@@ -1,7 +1,10 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
-import { default as computed, on, observes } from 'ember-addons/ember-computed-decorators';
+import { default as discourseComputed, on, observes } from 'discourse-common/utils/decorators';
+import { alias } from "@ember/object/computed";
 import { findRawTemplate } from "discourse/lib/raw-templates";
 import { wantsNewWindow } from "discourse/lib/intercept-click";
+import { emojiUnescape } from "discourse/lib/text";
+import { notEmpty } from "@ember/object/computed";
 import { h } from 'virtual-dom';
 
 export default {
@@ -17,9 +20,8 @@ export default {
         @observes('application.currentRouteName')
         toggleClass() {
           const route = this.get('application.currentRouteName');
-          const isNewsRoute = route === 'news';
           Ember.run.scheduleOnce('afterRender', () => {
-            $('#list-area').toggleClass('news', isNewsRoute);
+            $('#list-area').toggleClass('news', route === 'news');
           });
         }
       });
@@ -27,29 +29,18 @@ export default {
       api.modifyClass('controller:discovery/topics', {
         actions: {
           refresh() {
-            const discovery = this.get('discovery');
-            const route = discovery.get('application.currentRouteName');
-            const isNewsRoute = route === 'news';
-            if (isNewsRoute) {
-              return;
-            } else {
-              return this._super();
-            }
+            const route = this.get('discovery.application.currentRouteName');
+            if (route === 'news') return;
+            return this._super();
           }
         }
       });
 
       api.modifyClass('component:topic-list', {
-        @computed('newsRoute')
-        routeEnabled(newsRoute) {
-          if (newsRoute) {
-            return ['topic_list_social'];
-          } else {
-            return false;
-          }
-        },
-
-        @computed('currentRoute')
+        router: Ember.inject.service('-routing'),
+        currentRoute: alias('router.currentRouteName'),
+        
+        @discourseComputed('currentRoute')
         newsRoute(currentRoute) {
           return currentRoute === 'news';
         },
@@ -80,18 +71,13 @@ export default {
               this.set("topicListItemContents", template(this).htmlSafe());
             }
           } else {
-            return this._super(buffer);
+            return this._super();
           }
         },
 
         @on('init')
         setupNews() {
           if (this.get('newsRoute')) {
-            this.setProperties({
-              thumbnailWidth: 700,
-              thumbnailHeight: 400
-            });
-
             if (this.get('showNewsMeta')) {
               Ember.run.scheduleOnce('afterRender', () => {
                 this._setupActions();
@@ -100,7 +86,7 @@ export default {
           }
         },
 
-        @computed('newsRoute')
+        @discourseComputed('newsRoute')
         showNewsMeta(newsRoute) {
           const siteSettings = Discourse.SiteSettings;
           const source = siteSettings.discourse_news_source;
@@ -187,6 +173,20 @@ export default {
           return buttons;
         }
       });
+      
+      api.modifyClass('model:topic', {        
+        hasNewsExcerpt: notEmpty("news_excerpt"),
+        
+        @discourseComputed("news_excerpt")
+        escapedNewsExcerpt(newsExcerpt) {
+          return emojiUnescape(newsExcerpt);
+        },
+
+        @discourseComputed("news_excerpt")
+        newsExcerptTruncated(newsExcerpt) {
+          return newsExcerpt && newsExcerpt.substr(newsExcerpt.length - 8, 8) === "&hellip;";
+        }
+      })
     });
   }
 };

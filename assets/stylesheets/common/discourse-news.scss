@@ -69,6 +69,11 @@ a.header-nav-link {
             float: initial;
             margin-bottom: 20px;
             padding: 0;
+            
+            img {
+              width: 100%;
+              object-fit: cover;
+            }
           }
 
           .topic-title {

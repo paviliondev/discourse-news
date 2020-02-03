@@ -1,7 +1,6 @@
 plugins:
   discourse_news_enabled:
     default: false
-    validator: AllowNewsEnabledValidator
     client: true
   discourse_news_source:
     default: "category"
