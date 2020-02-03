@@ -79,7 +79,7 @@ export default {
         showReplies(newsRoute) {
           const siteSettings = Discourse.SiteSettings;
           const topicSource = siteSettings.discourse_news_source === 'category';
-          const showReplies = siteSettings.discourse_news_show_replies;
+          const showReplies = siteSettings.discourse_news_show_reply_count;
           return newsRoute && topicSource && showReplies;
         }
       });

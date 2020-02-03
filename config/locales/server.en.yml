@@ -10,4 +10,4 @@ en:
     discourse_news_sort: "Topic property to sort news items by."
     discourse_news_sidebar_topic_list: "Show topic list in sidebar on news route."
     discourse_news_sidebar_topic_list_filter: "Filter to use in news sidebar topic list"
-    discourse_news_sidebar_topic_list_count: "News sidebar topic list count"
+    discourse_news_sidebar_topic_list_limit: "News sidebar topic list limit"

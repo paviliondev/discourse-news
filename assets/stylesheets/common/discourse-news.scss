@@ -105,6 +105,18 @@ body.news #main-outlet {
               line-height: 40px;
               color: $primary;
             }
+            
+            .link-bottom-line {
+              display: flex;
+              
+              > span {
+                margin: 0 5px;
+              }
+
+              .news-item-author, .news-item-date {
+                font-size: 1em;
+              }
+            }
           }
 
           .news-item-body {
@@ -115,10 +127,11 @@ body.news #main-outlet {
           .news-item-gutter {
             margin: 10px 0;
             display: flex;
-          }
-
-          button.share {
-            margin-left: auto;
+            justify-content: space-between;
+            
+            .posts-map {
+              font-size: 1em;
+            }
           }
         }
       }

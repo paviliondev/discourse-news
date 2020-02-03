@@ -16,8 +16,12 @@
       {{/if}}
     </span>
     
-    <div class="news-item-author">
-      {{topic.creator.displayName}}
+    <div class="link-bottom-line">
+      <div class="news-item-author">{{topic.creator.displayName}}</div>
+      <span>|</span>
+      <div class="news-item-date">
+        {{format-date topic.bumpedAt}}
+      </div>
     </div>
   </div>
 
