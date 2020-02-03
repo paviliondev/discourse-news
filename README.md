@@ -1,4 +1,4 @@
-## Discourse News
+### Discourse News
 
 The News Plugin is a [Discourse plugin](https://github.com/discourse/discourse) that adds a new "News" route to your forum. The latest topics in a category(s) (or from an RSS feed) are displayed in a large, news-like format, with an optional sidebar with a topic list. It adds a link to the News route in the header bar.
 
@@ -14,8 +14,10 @@ It is inspired by the [Elektronauts news feed](https://www.elektronauts.com/news
 
 #### Lost?
 
-- Not sure how to install a plugin? [Follow the steps here](https://meta.discourse.org/t/install-plugins-in-discourse/19157). 
+- Not sure how to install a Discourse plugin? [Follow the steps here](https://meta.discourse.org/t/install-plugins-in-discourse/19157). 
 
 - Make sure you check out all the site settings for this plugin by searching for "News" in your admin settings.
 
-> :wave:  Before you post in this topic, [bug reports](https://thepavilion.io/w/bug-report) or [feature requests](https://thepavilion.io/w/feature-request) over at thepavilion.io are much appreciated (it's easier to manage than one big topic!). If you just have a quick question, it's fine to post that here.
+#### Bugs and Features
+
+The primary place to report bugs or request features is over at [thepavilion.io](https://thepavilion.io). It's easier for us to manage them there, than across multiple repositories.
