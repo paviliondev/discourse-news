@@ -23,6 +23,10 @@ after_initialize do
     load File.expand_path(path, __FILE__)
   end
   
+  class ::ListController
+    skip_before_action :ensure_logged_in, only: [:news]
+  end
+  
   add_to_class(:list_controller, :news) do
     if SiteSetting.discourse_news_source == 'rss'
       feed_url = SiteSetting.discourse_news_rss
