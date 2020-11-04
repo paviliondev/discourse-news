@@ -6,6 +6,8 @@ import { wantsNewWindow } from "discourse/lib/intercept-click";
 import { emojiUnescape } from "discourse/lib/text";
 import { notEmpty } from "@ember/object/computed";
 import { h } from 'virtual-dom';
+import { inject as service } from "@ember/service";
+import { scheduleOnce } from "@ember/runloop";
 
 export default {
   name: 'news-edits',
@@ -16,11 +18,13 @@ export default {
 
     withPluginApi('0.8.12', (api) => {
       api.modifyClass('controller:discovery', {
+        router: service(),
+        
         @on('init')
-        @observes('application.currentRouteName')
+        @observes('router.currentRouteName')
         toggleClass() {
-          const route = this.get('application.currentRouteName');
-          Ember.run.scheduleOnce('afterRender', () => {
+          const route = this.get('router.currentRouteName');
+          scheduleOnce('afterRender', () => {
             $('#list-area').toggleClass('news', route === 'news');
           });
         }
@@ -29,7 +33,7 @@ export default {
       api.modifyClass('controller:discovery/topics', {
         actions: {
           refresh() {
-            const route = this.get('discovery.application.currentRouteName');
+            const route = this.get('router.currentRouteName');
             if (route === 'news') return;
             return this._super();
           }
@@ -37,7 +41,7 @@ export default {
       });
 
       api.modifyClass('component:topic-list', {
-        router: Ember.inject.service('-routing'),
+        router: service(),
         currentRoute: alias('router.currentRouteName'),
         
         @discourseComputed('currentRoute')
@@ -61,7 +65,7 @@ export default {
       });
 
       api.modifyClass('component:topic-list-item', {
-        newsRoute: Ember.computed.alias('parentView.newsRoute'),
+        newsRoute: alias('parentView.newsRoute'),
         
         @observes("topic.pinned")
         renderTopicListItem() {
@@ -114,8 +118,8 @@ export default {
       });
 
       api.modifyClass('component:site-header', {
-        router: Ember.inject.service('-routing'),
-        currentRoute: Ember.computed.alias('router.router.currentRouteName'),
+        router: service(),
+        currentRoute: alias('router.currentRouteName'),
 
         @observes('currentRoute')
         rerenderWhenRouteChanges() {

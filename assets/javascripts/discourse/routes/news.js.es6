@@ -1,6 +1,7 @@
 import buildTopicRoute from "discourse/routes/build-topic-route";
 import { popupAjaxError } from 'discourse/lib/ajax-error';
 import { ajax } from 'discourse/lib/ajax';
+import EmberObject from '@ember/object';
 
 const settings = Discourse.SiteSettings;
 
@@ -8,10 +9,10 @@ export default buildTopicRoute('news', {
   model(data, transition) {
     if (settings.discourse_news_source === 'rss') {
       return ajax("/news").then((result) => {
-        return Ember.Object.create({
+        return EmberObject.create({
           filter: '',
           topics: result.map(t => {
-            return Ember.Object.create({
+            return EmberObject.create({
               title: t.title,
               description: t.description,
               url: t.url,
