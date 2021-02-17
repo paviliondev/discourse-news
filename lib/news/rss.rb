@@ -29,7 +29,7 @@ class News::Rss
     @category = nil
     @pinned_until = nil
     @last_posted_at = nil
-    @created_at = attrs.pubDate.present? ? attrs.pubDate : nil
+    @created_at = attrs.pubDate.present? ? attrs.pubDate : DateTime.now
     @posts_count = nil
     @tags = nil
     @posters = []
