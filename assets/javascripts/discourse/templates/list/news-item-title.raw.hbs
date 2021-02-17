@@ -8,10 +8,14 @@
   </span>
   
   <div class="link-bottom-line">
-    <div class="news-item-author">{{topic.creator.displayName}}</div>
-    <span>|</span>
-    <div class="news-item-date">
-      {{raw-date topic.created_at}}
+    <div class="news-item-author">
+      {{topic.creator.displayName}}
     </div>
+    {{#if topic.created_at}}
+      <span>|</span>
+      <div class="news-item-date">
+        {{raw-date topic.created_at}}
+      </div>
+    {{/if}}
   </div>
 </div>

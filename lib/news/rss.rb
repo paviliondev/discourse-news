@@ -11,13 +11,15 @@ class News::Rss
   attr_accessor :title,
                 :description,
                 :url,
-                :image_url
-              
-  attr_accessor :category,
+                :image_url,
+                :category,
+                :tags,
+                :posters,
                 :pinned_until,
                 :last_posted_at,
                 :created_at,
-                :posts_count
+                :posts_count,
+                :views
 
   def initialize(attrs)
     @attrs = attrs
@@ -27,8 +29,12 @@ class News::Rss
     @category = nil
     @pinned_until = nil
     @last_posted_at = nil
-    @created_at = attrs.pubDate || Date.now
+    @created_at = attrs.pubDate.present? ? attrs.pubDate : nil
     @posts_count = nil
+    @tags = nil
+    @posters = []
+    @posts_count = 0
+    @views = nil
   end
   
   def description
