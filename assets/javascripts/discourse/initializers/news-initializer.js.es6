@@ -1,7 +1,7 @@
 import { withPluginApi } from 'discourse/lib/plugin-api';
 import { default as discourseComputed, on, observes } from 'discourse-common/utils/decorators';
 import { alias } from "@ember/object/computed";
-import { findRawTemplate } from "discourse/lib/raw-templates";
+import { findRawTemplate } from "discourse-common/lib/raw-templates";
 import { wantsNewWindow } from "discourse/lib/intercept-click";
 import { emojiUnescape } from "discourse/lib/text";
 import { notEmpty } from "@ember/object/computed";
@@ -54,7 +54,7 @@ export default {
         setupNews() {
           const newsRoute = this.get('newsRoute');
           if (newsRoute) {
-            const newsCategoryId = Discourse.SiteSettings.discourse_news_category;
+            const newsCategoryId = this.siteSettings.discourse_news_category;
             const newsCategory = this.site.get("categoriesList").find(c => c.id === newsCategoryId);
             this.set('category', newsCategory);
             $('body').addClass('news');
@@ -81,7 +81,7 @@ export default {
 
         @discourseComputed('newsRoute')
         showReplies(newsRoute) {
-          const siteSettings = Discourse.SiteSettings;
+          const siteSettings = this.siteSettings;
           const topicSource = siteSettings.discourse_news_source === 'category';
           const showReplies = siteSettings.discourse_news_show_reply_count;
           return newsRoute && topicSource && showReplies;

@@ -3,11 +3,9 @@ import { popupAjaxError } from 'discourse/lib/ajax-error';
 import { ajax } from 'discourse/lib/ajax';
 import EmberObject from '@ember/object';
 
-const settings = Discourse.SiteSettings;
-
 export default buildTopicRoute('news', {
   model(data, transition) {
-    if (settings.discourse_news_source === 'rss') {
+    if (this.siteSettings.discourse_news_source === 'rss') {
       return ajax("/news").then((result) => {
         return EmberObject.create({
           filter: '',
@@ -28,11 +26,11 @@ export default buildTopicRoute('news', {
   },
       
   afterModel(model) {
-    if (settings.discourse_news_sidebar_topic_list && !this.site.mobileView) {
-      const filter = settings.discourse_news_sidebar_topic_list_filter || 'latest';
+    if (this.siteSettings.discourse_news_sidebar_topic_list && !this.site.mobileView) {
+      const filter = this.siteSettings.discourse_news_sidebar_topic_list_filter || 'latest';
       return this.store.findFiltered("topicList", { filter })
         .then(list => {
-          const limit = settings.discourse_news_sidebar_topic_list_limit || 10;
+          const limit = this.siteSettings.discourse_news_sidebar_topic_list_limit || 10;
           this.set('sidebarTopics', list.topics.slice(0, limit));
         });
     } else {
