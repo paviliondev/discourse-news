@@ -7,7 +7,7 @@
   {{#if topic.image_url}}
     <div class="news-item-thumbnail">
       <a href='{{topic.url}}'>
-        <img src={{topic.image_url}}>
+        <img src={{topic.image_url}} loading="lazy">
       </a>
     </div>
   {{/if}}
