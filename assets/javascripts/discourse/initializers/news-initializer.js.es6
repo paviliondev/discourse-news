@@ -8,6 +8,7 @@ import { notEmpty } from "@ember/object/computed";
 import { h } from 'virtual-dom';
 import { inject as service } from "@ember/service";
 import { scheduleOnce } from "@ember/runloop";
+import showModal from "discourse/lib/show-modal";
 
 export default {
   name: 'news-edits',
@@ -85,36 +86,22 @@ export default {
           const topicSource = siteSettings.discourse_news_source === 'category';
           const showReplies = siteSettings.discourse_news_show_reply_count;
           return newsRoute && topicSource && showReplies;
-        }
-      });
-
-      api.modifyClass('component:share-popup', {
-        @on('didInsertElement')
-        getTopicId() {
-          const newsShare = this.get('newsShare');
-          if (newsShare) {
-            const topicMap = this.get('topics').reduce((map, t) => {
-              map[t.id] = t;
-              return map;
-            }, {});
-
-            $("html").on(
-            "click.discourse-share-link-topic",
-            "button[data-share-url]", e => {
-              if (wantsNewWindow(e)) {
-                return true;
-              }
-              const $currentTarget = $(e.currentTarget);
-              const topicId = $currentTarget.closest("tr").data("topic-id");
-              this.set('topic', topicMap[topicId]);
-            });
-          }
         },
 
-        @on('willDestroyElement')
-        teardownGetTopicId() {
-          $("html").off("click.discourse-share-link-topic");
-        }
+        click(e) {
+          let t = e.target;
+          if (!t) {
+            return this._super(e);
+          }
+          if (t.closest(".share")) {
+            const controller = showModal("share-topic", {
+              model: this.topic.category,
+            });
+            controller.set('topic', this.topic);
+            return true;
+          }
+          return this._super(e);
+        },
       });
 
       api.modifyClass('component:site-header', {
