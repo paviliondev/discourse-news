@@ -32,9 +32,7 @@
       </div>
     {{/if}}
 
-    <button class="share btn-flat no-text btn-icon"
-      data-share-url="{{topic.url}}"
-      data-post-number="1">
+    <button class="share btn-flat no-text btn-icon">
       {{d-icon 'link'}}
     </button>
   </div>
