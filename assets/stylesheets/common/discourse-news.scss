@@ -13,7 +13,7 @@ a.header-nav-link {
     width: 40px;
     text-align: center;
     font-size: 16px;
-    color: $primary;
+    color: var(--primary);
   }
 
   img {
@@ -103,7 +103,7 @@ body.news #main-outlet {
             a {
               font-size: 35px;
               line-height: 40px;
-              color: $primary;
+              color: var(--primary);
             }
             
             .link-bottom-line {
@@ -121,7 +121,7 @@ body.news #main-outlet {
 
           .news-item-body {
             max-height: initial;
-            color: $primary;
+            color: var(--primary);
           }
 
           .news-item-gutter {
@@ -147,13 +147,13 @@ body.news #main-outlet {
 
   .sidebar {
     padding: 0px 0 0 30px;
-    border-left: 1px solid $primary-low;
+    border-left: 1px solid var(--primary-low);
     margin-left: 40px;
     max-width: 300px;
     
     .sidebar-title {
       padding-bottom: 5px;
-      border-bottom: 1px solid $primary-low;
+      border-bottom: 1px solid var(--primary-low);
       font-size: 1.3em;
     }
     
@@ -165,17 +165,17 @@ body.news #main-outlet {
         margin: 10px 0;
         
         .sidebar-topic-title a {
-          color: $primary;
+          color: var(--primary);
         }
         
         .sidebar-topic-meta {
           font-size: 0.8em;
-          color: rgba($primary-medium, 0.8);
+          color: rgba(var(--primary-medium), 0.8);
         }
         
         .sidebar-topic-meta a {
           font-size: 1em;
-          color: rgba($primary-medium, 0.8);
+          color: rgba(var(--primary-medium), 0.8);
         }
       }
     }
