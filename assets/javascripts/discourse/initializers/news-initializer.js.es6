@@ -8,7 +8,8 @@ import { notEmpty } from "@ember/object/computed";
 import { h } from 'virtual-dom';
 import { inject as service } from "@ember/service";
 import { scheduleOnce } from "@ember/runloop";
-import showModal from "discourse/lib/show-modal";
+import ShareTopicModal from "discourse/components/modal/share-topic";
+import { getOwner } from "@ember/application";
 
 export default {
   name: 'news-edits',
@@ -94,10 +95,12 @@ export default {
             return this._super(e);
           }
           if (t.closest(".share")) {
-            const controller = showModal("share-topic", {
-              model: this.topic.category,
+            getOwner(this).lookup("service:modal").show(ShareTopicModal, {
+              model: {
+                category: this.topic.category,
+                topic: this.topic,
+              }
             });
-            controller.set('topic', this.topic);
             return true;
           }
           return this._super(e);
