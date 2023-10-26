@@ -10,6 +10,7 @@ import { inject as service } from "@ember/service";
 import { scheduleOnce } from "@ember/runloop";
 import ShareTopicModal from "discourse/components/modal/share-topic";
 import { getOwner } from "@ember/application";
+import { htmlSafe } from "@ember/template";
 
 export default {
   name: 'news-edits',
@@ -74,7 +75,7 @@ export default {
           if (this.get('newsRoute')) {
             const template = findRawTemplate("list/news-item");
             if (template) {
-              this.set("topicListItemContents", template(this).htmlSafe());
+              this.set("topicListItemContents", htmlSafe(template(this)));
             }
           } else {
             return this._super();
