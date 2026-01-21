@@ -1,17 +1,16 @@
-require 'digest/sha1'
-require 'excon'
-require 'rss'
-require_dependency 'encodings'
+# frozen_string_literal: true
 
-PARSING_ERRORS = [::RSS::NotWellFormedError, ::RSS::InvalidRSSError]
+require "digest/sha1"
+require "excon"
+require "rss"
 
 class News::Rss
   include ActiveModel::SerializerSupport
- 
+
+  PARSING_ERRORS = [::RSS::NotWellFormedError, ::RSS::InvalidRSSError]
+
   attr_accessor :title,
-                :description,
                 :url,
-                :image_url,
                 :category,
                 :tags,
                 :posters,
@@ -25,45 +24,42 @@ class News::Rss
     @attrs = attrs
     @title = attrs.title
     @url = attrs.link
-        
+
     @category = nil
     @pinned_until = nil
     @last_posted_at = nil
-    @created_at = attrs.pubDate.present? ? attrs.pubDate : DateTime.now
+    @created_at = attrs.pubDate.presence || DateTime.now
     @posts_count = nil
     @tags = nil
     @posters = []
     @posts_count = 0
     @views = nil
   end
-  
+
   def description
     @description ||= News::Item.generate_body(@attrs.description, @image_url)
   end
-  
+
   def image_url
-    @image_url ||= begin
-      if @attrs.enclosure &&
-         @attrs.enclosure.type.include?("image") &&
-         @attrs.enclosure.url
-        @attrs.enclosure.url
-      else
-        nil
+    @image_url ||=
+      begin
+        if @attrs.enclosure && @attrs.enclosure.type.include?("image") && @attrs.enclosure.url
+          @attrs.enclosure.url
+        end
       end
-    end
   end
 
   def self.get_feed_items(url)
-    rss = self.get_parsed_feed(url)
-    items = rss.items.map { |item| self.new(item) }
+    rss = get_parsed_feed(url)
+    items = rss.items.map { |item| new(item) }
 
-    self.cache_feed(url, items)
+    cache_feed(url, items)
 
     items
   end
 
   def self.get_parsed_feed(url)
-    raw_feed, encoding = self.fetch_rss(url)
+    raw_feed, encoding = fetch_rss(url)
     return nil if raw_feed.nil?
 
     encoded_feed = Encodings.try_utf8(raw_feed, encoding) if encoding
@@ -71,21 +67,21 @@ class News::Rss
 
     return nil if encoded_feed.blank?
 
-    ## ensure enclosure images have length
     encoded_feed = encoded_feed.gsub(/\"\"/, '"0"')
 
     ::RSS::Parser.parse(encoded_feed)
   rescue *PARSING_ERRORS => e
-    puts "NEWS RSS PARSING ERROR: #{e}"
+    Rails.logger.warn("NEWS RSS PARSING ERROR: #{e}")
+    nil
   end
 
   def self.fetch_rss(url)
     response = Excon.new(url.to_s).request(method: :get, expects: 200)
-    [response.body, self.detect_charset(response)]
+    [response.body, detect_charset(response)]
   end
 
   def self.detect_charset(response)
-    if response.headers['Content-Type'] =~ /charset\s*=\s*([a-z0-9\-]+)/i
+    if response.headers["Content-Type"] =~ /charset\s*=\s*([a-z0-9\-]+)/i
       Encoding.find($1)
     end
   rescue ArgumentError
@@ -93,15 +89,15 @@ class News::Rss
   end
 
   def self.cached_feed(url)
-    Discourse.cache.fetch(self.cache_key(url))
+    Discourse.cache.fetch(cache_key(url))
   end
 
   def self.cache_feed(url, feed)
-    Discourse.cache.write(self.cache_key(url), feed, expires_in: 5.minutes)
+    Discourse.cache.write(cache_key(url), feed, expires_in: 5.minutes)
   end
-  
+
   def self.clear_cache(url)
-    Discourse.cache.delete(self.cache_key(url))
+    Discourse.cache.delete(cache_key(url))
   end
 
   def self.cache_key(url)
