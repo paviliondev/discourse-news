@@ -32,10 +32,12 @@ RSpec.describe "News page", type: :system do
   end
 
   context "with title below image setting enabled" do
+    fab!(:image_upload) { Fabricate(:image_upload, width: 200, height: 200) }
+
     before { SiteSetting.discourse_news_title_below_image = true }
 
     it "displays title after the thumbnail" do
-      topic.update!(image_url: "https://example.com/image.jpg")
+      topic.update!(image_upload: image_upload)
 
       visit "/news"
 
