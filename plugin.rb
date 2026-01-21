@@ -16,10 +16,10 @@ require_relative "lib/news/engine"
 after_initialize do
   require_relative "config/routes"
 
-  class ::ListController
-    skip_before_action :ensure_logged_in, only: [:news]
+  reloadable_patch do
+    ::ListController.prepend(News::Extensions::ListController)
   end
-  
+
   add_to_class(:list_controller, :news) do
     if SiteSetting.discourse_news_source == 'rss'
       feed_url = SiteSetting.discourse_news_rss
