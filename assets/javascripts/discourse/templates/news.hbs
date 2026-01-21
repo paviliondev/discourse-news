@@ -1,6 +1,10 @@
 <div class="topic-list-contents">
-  {{#discovery-topics-list model=model refresh=(action "refresh") as |discoveryTopicList|}}
-    {{#if hasTopics}}
+  <DiscoveryTopicsList
+    @model={{@model}}
+    @incomingCount={{this.topicTrackingState.incomingCount}}
+    @bulkSelectHelper={{@bulkSelectHelper}}
+  >
+    {{#if this.hasTopics}}
       {{topic-list
         top=top
         showTopicPostBadges=showTopicPostBadges
@@ -21,7 +25,7 @@
         scrollOnLoad=true
         onScroll=discoveryTopicList.saveScrollPosition}}
     {{/if}}
-  {{/discovery-topics-list}}
+  </DiscoveryTopicsList>
 </div>
 
 {{#if showSidebar}}

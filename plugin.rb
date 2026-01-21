@@ -2,7 +2,7 @@
 
 # name: discourse-news
 # about: Adds a news stream to your Discourse instance
-# version: 0.3
+# version: 0.4
 # authors: Angus McLeod
 # url: https://github.com/paviliondev/discourse-news
 
@@ -11,18 +11,11 @@ register_asset 'stylesheets/mobile/discourse-news.scss', :mobile
 
 enabled_site_setting :discourse_news_enabled
 
+require_relative "lib/news/engine"
+
 after_initialize do
-  %w[
-    ../lib/news/engine.rb
-    ../lib/news/item.rb
-    ../lib/news/rss.rb
-    ../lib/news/rss_topic_list.rb
-    ../config/routes.rb
-    ../app/serializers/news/rss_serializer.rb
-  ].each do |path|
-    load File.expand_path(path, __FILE__)
-  end
-  
+  require_relative "config/routes"
+
   class ::ListController
     skip_before_action :ensure_logged_in, only: [:news]
   end
@@ -36,7 +29,7 @@ after_initialize do
       
       respond_to do |format|
         format.html do
-          @list = RssTopicList.new(feed, nil)
+          @list = News::RssTopicList.new(feed, nil)
           store_preloaded("topic_list_news_rss", MultiJson.dump(serialized))
           render 'list/list'
         end
@@ -87,16 +80,12 @@ after_initialize do
       super(options)
     end
   end
-  
-  class ::Topic
-    prepend TopicNewsExtension
+
+  reloadable_patch do
+    ::Topic.prepend(TopicNewsExtension)
   end
   
-  add_to_serializer(:topic_list_item, :include_news_body?) do
-    object.news_item
-  end
-  
-  add_to_serializer(:topic_list_item, :news_body) do
+  add_to_serializer(:topic_list_item, :news_body, include_condition: -> { object.news_item }) do
     object.news_body
   end
 end

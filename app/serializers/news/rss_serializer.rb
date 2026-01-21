@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class News::RssSerializer < ::ApplicationSerializer
   attributes :title,
              :description,
