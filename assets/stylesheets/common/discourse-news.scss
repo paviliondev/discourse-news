@@ -36,6 +36,8 @@ body.news #main-outlet {
 
 body.news #list-area {
   display: flex;
+  min-width: 0;
+  overflow-x: hidden; // belt-and-suspenders: prevent horizontal scroll if child content overflows
   
   > span {
     display: none;
@@ -43,6 +45,8 @@ body.news #list-area {
   
   .topic-list-contents {
     width: 750px;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   .contents {
@@ -93,7 +97,7 @@ body.news #list-area {
             
             img {
               width: 100%;
-              object-fit: cover;
+              height: auto;
             }
           }
 
@@ -122,6 +126,12 @@ body.news #list-area {
           .news-item-body {
             max-height: initial;
             color: var(--primary);
+
+            // Prevent inline images in post body from overflowing on narrow screens
+            img {
+              max-width: 100%;
+              height: auto;
+            }
           }
 
           .news-item-gutter {
@@ -177,6 +187,30 @@ body.news #list-area {
           font-size: 1em;
           color: rgba(var(--primary-medium), 0.8);
         }
+      }
+    }
+  }
+}
+
+// === Tablet and below (≤ 1024px) ===
+// Discourse loads a separate mobile stylesheet by user-agent for phones;
+// this breakpoint handles tablets and browsers resized below 1024px.
+@media screen and (max-width: 1024px) {
+  body.news #list-area {
+    flex-direction: column;
+
+    .topic-list-contents {
+      width: 100%;
+    }
+
+    .sidebar {
+      display: none;
+    }
+
+    .contents .topic-list tbody {
+      .news-item .news-item-title a {
+        font-size: 28px;
+        line-height: 36px;
       }
     }
   }

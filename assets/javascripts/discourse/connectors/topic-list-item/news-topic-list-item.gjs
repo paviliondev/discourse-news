@@ -21,7 +21,10 @@ export default class NewsTopicListItem extends Component {
   <template>
     {{#if this.isNewsRoute}}
       {{bodyClass "news"}}
-      <NewsItem @topic={{@topic}} @showReplies={{this.showReplies}} />
+      <NewsItem
+        @topic={{@outletArgs.topic}}
+        @showReplies={{this.showReplies}}
+      />
     {{else}}
       {{yield}}
     {{/if}}

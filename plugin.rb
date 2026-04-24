@@ -25,12 +25,16 @@ after_initialize do
       feed_url = SiteSetting.discourse_news_rss
       feed = News::Rss.get_feed_items(feed_url) ## TODO implement caching: News::Rss.cached_feed(feed_url)
       
-      serialized = ActiveModel::ArraySerializer.new(feed, each_serializer: News::RssSerializer, root: false)
+      serialized = ActiveModelSerializers::SerializableResource.new(
+        feed,
+        each_serializer: News::RssSerializer,
+        root: false
+      )
       
       respond_to do |format|
         format.html do
           @list = News::RssTopicList.new(feed, nil)
-          store_preloaded("topic_list_news_rss", MultiJson.dump(serialized))
+          store_preloaded("topic_list_news_rss", serialized.to_json)
           render 'list/list'
         end
         format.json do
@@ -85,7 +89,11 @@ after_initialize do
     ::Topic.prepend(TopicNewsExtension)
   end
   
-  add_to_serializer(:topic_list_item, :news_body, include_condition: -> { object.news_item }) do
+  add_to_serializer(:topic_list_item, :news_body) do
     object.news_body
+  end
+
+  add_to_serializer(:topic_list_item, :include_news_body?) do
+    object.news_item
   end
 end
