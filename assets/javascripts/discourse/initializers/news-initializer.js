@@ -13,19 +13,13 @@ export default {
     withPluginApi("1.6.0", (api) => {
       api.headerButtons.add("news", NewsHeaderButton, { before: "auth" });
 
-      api.modifyClass(
-        "model:topic",
-        (Superclass) =>
-          class extends Superclass {
-            get basicCategoryLinkHtml() {
-              const category = this.category;
-              if (!category) {
-                return "";
-              }
-              return `<a class="basic-category-link" href="${category.url}" title="${category.name}">${category.name}</a>`;
-            }
-          }
-      );
+      api.addModelGetter("topic", "basicCategoryLinkHtml", function () {
+        const category = this.category;
+        if (!category) {
+          return "";
+        }
+        return `<a class="basic-category-link" href="${category.url}" title="${category.name}">${category.name}</a>`;
+      });
     });
   },
 };
