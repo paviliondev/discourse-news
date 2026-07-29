@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe "News page", type: :system do
+RSpec.describe "News page" do
   fab!(:category)
   fab!(:topic) { Fabricate(:topic, category: category) }
   fab!(:post) { Fabricate(:post, topic: topic) }

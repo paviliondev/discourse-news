@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe News::Rss do
-  let(:sample_rss) do
-    <<~RSS
+  let(:sample_rss) { <<~RSS }
       <?xml version="1.0" encoding="UTF-8"?>
       <rss version="2.0">
         <channel>
@@ -25,11 +24,11 @@ RSpec.describe News::Rss do
         </channel>
       </rss>
     RSS
-  end
 
   describe ".detect_charset" do
     it "extracts charset from Content-Type header" do
-      response = double(headers: { "Content-Type" => "text/xml; charset=ISO-8859-1" })
+      response =
+        double(headers: { "Content-Type" => "text/xml; charset=ISO-8859-1" })
       charset = described_class.detect_charset(response)
 
       expect(charset).to eq(Encoding::ISO_8859_1)
@@ -43,7 +42,12 @@ RSpec.describe News::Rss do
     end
 
     it "returns nil for invalid charset" do
-      response = double(headers: { "Content-Type" => "text/xml; charset=invalid-encoding" })
+      response =
+        double(
+          headers: {
+            "Content-Type" => "text/xml; charset=invalid-encoding"
+          }
+        )
       charset = described_class.detect_charset(response)
 
       expect(charset).to be_nil
