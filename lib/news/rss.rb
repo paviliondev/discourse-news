@@ -43,7 +43,8 @@ class News::Rss
   def image_url
     @image_url ||=
       begin
-        if @attrs.enclosure && @attrs.enclosure.type.include?("image") && @attrs.enclosure.url
+        if @attrs.enclosure && @attrs.enclosure.type.include?("image") &&
+             @attrs.enclosure.url
           @attrs.enclosure.url
         end
       end
